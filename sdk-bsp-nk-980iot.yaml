@@ -64,8 +64,8 @@ features_zh:
 - Arduino compatible interface
 - UART x 3 
 pkg_type: Board_Support_Packages
-pkg_vendor: Wayne
-pkg_version: 1.0.0
+pkg_vendor: Nuvoton
+pkg_version: 1.0.1
 template_projects:
 - builtin_files:
   - files_and_folders:
