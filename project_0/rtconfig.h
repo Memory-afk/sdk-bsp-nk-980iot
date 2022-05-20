@@ -442,7 +442,7 @@
 #define NU_PKG_USING_DEMO
 #define NU_PKG_USING_NAU8822
 #define NU_PKG_USING_SPINAND
+#define UTEST_CMD_PREFIX "bsp.nuvoton.utest."
 #define BOARD_USE_UTEST
-#define UTEST_CMD_PREFIX "bsp.nuvoton.nk980-iot.test.utest."
 
 #endif

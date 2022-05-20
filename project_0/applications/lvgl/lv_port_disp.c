@@ -33,11 +33,6 @@ static void lcd_fb_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_colo
     rect.width = area->x2 - area->x1 + 1;
     rect.height = area->y2 - area->y1 + 1;
 
-    if ((uint32_t)info.framebuffer != (uint32_t)color_p)
-    {
-        rect.y += info.height;
-    }
-
     rt_device_control(lcd_device, RTGRAPHIC_CTRL_RECT_UPDATE, &rect);
     lv_disp_flush_ready(disp_drv);
 }
@@ -50,8 +45,7 @@ void lcd_perf_monitor(struct _lv_disp_drv_t *disp_drv, uint32_t time, uint32_t p
 void lv_port_disp_init(void)
 {
     rt_err_t result;
-    void *buf_1 = RT_NULL;
-    void *buf_2 = RT_NULL;
+    void *buf1 = RT_NULL;
 
     lcd_device = rt_device_find("lcd");
     if (lcd_device == 0)
@@ -62,7 +56,7 @@ void lv_port_disp_init(void)
 
     /* get framebuffer address */
     result = rt_device_control(lcd_device, RTGRAPHIC_CTRL_GET_INFO, &info);
-    if (result != RT_EOK)
+    if (result != RT_EOK && info.framebuffer == RT_NULL)
     {
         LOG_E("error!");
         /* get device information failed */
@@ -72,12 +66,11 @@ void lv_port_disp_init(void)
     RT_ASSERT(info.bits_per_pixel == 8 || info.bits_per_pixel == 16 ||
               info.bits_per_pixel == 24 || info.bits_per_pixel == 32);
 
-    buf_1 = (void *)info.framebuffer;
-    buf_2 = (void *)((uint32_t)buf_1 + info.height * info.width * info.bits_per_pixel / 8);
-    rt_kprintf("LVGL: Use two buffers - buf_1@%08x, buf_2@%08x\n", buf_1, buf_2);
+    buf1 = (void *)info.framebuffer;
+    rt_kprintf("LVGL: Use one buffers - buf1@%08x\n", buf1);
 
     /*Initialize `disp_buf` with the buffer(s).*/
-    lv_disp_draw_buf_init(&disp_buf, buf_1, buf_2, info.width * info.height);
+    lv_disp_draw_buf_init(&disp_buf, buf1, RT_NULL, info.width * info.height);
 
     result = rt_device_open(lcd_device, 0);
     if (result != RT_EOK)

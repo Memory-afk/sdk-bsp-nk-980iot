@@ -65,7 +65,7 @@ features_zh:
 - UART x 3 
 pkg_type: Board_Support_Packages
 pkg_vendor: Nuvoton
-pkg_version: 1.0.1
+pkg_version: 1.0.2
 template_projects:
 - builtin_files:
   - files_and_folders:
@@ -95,7 +95,7 @@ template_projects:
   - package_type: RT-Thread_Source_Code
     package_name: RT-Thread
     package_vendor: ''
-    package_version: 4.0.5
+    package_version: 4.1.0
     source_path_offset: ''
     target_path_offset: rt-thread
     files_and_folders:
@@ -124,5 +124,5 @@ template_projects:
     files_and_folders: []
   project_description: ''
   project_name: nk-980iot
-  project_type: rt-thread|@full|@4.0.5
+  project_type: rt-thread|@full|@4.1.0
 yaml_version: 3
