@@ -80,6 +80,7 @@ template_projects:
     - applications
     - makefile.targets
     - board
+    - uboot
     - packages
     - README.md
     - cconfig.h
@@ -88,7 +89,6 @@ template_projects:
     - libraries
     - rtconfig.py
     - template.uvproj
-    - template.uvprojx
     source_path_offset: project_0
     target_path_offset: ''
   external_files:
