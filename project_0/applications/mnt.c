@@ -210,7 +210,7 @@ exit_filesystem_init:
 
     return -result;
 }
-INIT_ENV_EXPORT(filesystem_init);
+INIT_COMPONENT_EXPORT(filesystem_init);
 #endif
 
 #if defined(PKG_USING_DFS_YAFFS) && defined(RT_USING_DFS_MNTTABLE)
@@ -232,7 +232,7 @@ int yaffs_dev_init(void)
 
     return 0;
 }
-INIT_ENV_EXPORT(yaffs_dev_init);
+INIT_COMPONENT_EXPORT(yaffs_dev_init);
 #endif
 
 #if defined(BOARD_USING_STORAGE_SPIFLASH)
