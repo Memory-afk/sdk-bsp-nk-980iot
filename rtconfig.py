@@ -46,7 +46,7 @@ if PLATFORM == 'gcc':
     OBJCPY = PREFIX + 'objcopy'
 
     DEVICE = ' -mcpu=arm926ej-s'
-    CFLAGS = DEVICE
+    CFLAGS = DEVICE + ' -Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable  -mno-unaligned-access '
     AFLAGS = '-c'+ DEVICE + ' -x assembler-with-cpp'
     AFLAGS += ' -Iplatform'
     LFLAGS = DEVICE
@@ -85,10 +85,10 @@ elif PLATFORM == 'armcc':
     LFLAGS += ' --scatter  ' + LINK_FILE + '.sct'
 
     if BUILD == 'debug':
-        CFLAGS += ' -g -O0'
-        AFLAGS += ' -g'
+        CFLAGS += ' -g -O0 '
+        AFLAGS += ' -g '
     else:
-        CFLAGS += ' -O2'
+        CFLAGS += ' -O2 '
 
     POST_ACTION = 'fromelf --bin $TARGET --output ' + TARGET_NAME + ' \n'
     POST_ACTION += 'fromelf -z $TARGET\n'

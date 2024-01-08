@@ -60,7 +60,7 @@ const struct dfs_mount_tbl mount_table[] =
 #elif defined(RT_USING_DFS_UFFS)
     { "nand1", "/mnt/filesystem", "uffs", 0, RT_NULL },
 #endif
-#if defined(PKG_USING_RAMDISK)
+#if defined(RAMDISK_UDC)
     { RAMDISK_UDC, "/mnt/ram_usbd", "elm", 0, RT_NULL },
 #endif
     {0},
@@ -79,9 +79,11 @@ int ramdisk_device_init(void)
     result = ramdisk_init(RAMDISK_NAME, NULL, 512, 2 * 8192);
     RT_ASSERT(result == RT_EOK);
 
+#if defined(RAMDISK_UDC)
     /* Create a 4MB RAMDISK */
     result = ramdisk_init(RAMDISK_UDC, NULL, 512, 2 * 4096);
     RT_ASSERT(result == RT_EOK);
+#endif
 
     return 0;
 }
@@ -238,6 +240,7 @@ int filesystem_init(void)
         }
     }
 
+#if defined(RAMDISK_UDC)
     if (!rt_device_find(RAMDISK_UDC))
     {
         LOG_E("cannot find %s device", RAMDISK_UDC);
@@ -249,6 +252,7 @@ int filesystem_init(void)
         result = (rt_err_t)dfs_mkfs("elm", RAMDISK_UDC);
         RT_ASSERT(result == RT_EOK);
     }
+#endif
 
 #if defined(BOARD_USING_STORAGE_SPIFLASH)
     {
@@ -257,6 +261,14 @@ int filesystem_init(void)
         {
             rt_kprintf("Failed to create block device for %s.\n", PARTITION_NAME_FILESYSTEM);
         }
+
+        /* mount spi nor flash */
+        if (dfs_mount(PARTITION_NAME_FILESYSTEM, MOUNT_POINT_SPIFLASH0, "elm", 0, RT_NULL) != 0)
+        {
+            LOG_E("Failed to mount SPI NOR flash");
+            goto exit_filesystem_init;
+        }
+
     }
 #endif
 

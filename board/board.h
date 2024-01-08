@@ -24,9 +24,10 @@
     #define BOARD_HEAP_START    ((void *)&__bss_end)
 #endif
 
-#define BOARD_SDRAM_START   0x0
-#define BOARD_SDRAM_SIZE    0x04000000
-#define BOARD_HEAP_END      ((void*)BOARD_SDRAM_SIZE)
+#define BOARD_SDRAM_START      0x0
+#define BOARD_SDRAM_SIZE       0x04000000
+#define BOARD_SDRAM_NCNB_SIZE  0x200000
+#define BOARD_HEAP_END         ((void*)(BOARD_SDRAM_SIZE-BOARD_SDRAM_NCNB_SIZE))
 
 #if defined(RT_USING_MTD_NAND)
     #include <drivers/mtd_nand.h>
