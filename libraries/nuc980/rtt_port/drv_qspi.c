@@ -408,6 +408,10 @@ rt_err_t nu_qspi_bus_attach_device(const char *bus_name, const char *device_name
     qspi_device->config.qspi_dl_width = data_line_width;
 
     result = rt_spi_bus_attach_device(&qspi_device->parent, device_name, bus_name, RT_NULL);
+    if (result == RT_EOK)
+    {
+        qspi_device->parent.bus->owner = (struct rt_spi_device *) &qspi_device->parent.parent;
+    }
 
 __exit:
     if (result != RT_EOK)
